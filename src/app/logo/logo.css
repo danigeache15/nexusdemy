@@ -1,0 +1,49 @@
+.lp { max-width: 1180px; margin: 0 auto; padding: 72px 32px 96px; color: var(--ink); }
+.lp-head { margin-bottom: 56px; }
+.lp-head h1 { margin: 14px 0 22px; font-size: inherit; }
+.lp-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--orange-700); margin: 0; }
+.lp-lede { font-size: 18px; line-height: 1.6; color: var(--ink-700); max-width: 64ch; margin: 0; }
+
+.lp-row { display: grid; grid-template-columns: 1fr 1.15fr 1.15fr; gap: 20px; padding: 28px 0; border-top: 1px solid var(--line); align-items: stretch; }
+.lp-sub { grid-column: 1 / -1; margin: 8px 0 0; font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-500); }
+.lp-round { grid-column: 1 / -1; margin: 72px 0 8px; font-size: 13px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--orange-700); }
+.lp-meta h2 { font-family: var(--font-editorial); font-size: 24px; margin: 0 0 8px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.lp-meta p { margin: 0 0 18px; color: var(--ink-500); line-height: 1.55; font-size: 15px; }
+.lp-live { font-family: var(--font-body); font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; background: var(--lime); color: var(--ink); padding: 4px 9px; border-radius: 99px; }
+.lp-sizes { display: flex; align-items: center; gap: 18px; }
+.lp-app { display: grid; place-items: center; width: 64px; height: 64px; border-radius: 16px; background: var(--ink); }
+
+.lp-tile { display: grid; place-items: center; min-height: 180px; border-radius: 22px; padding: 24px; }
+.lp-tile.light { background: var(--white); border: 1px solid var(--line); }
+.lp-tile.night { background: linear-gradient(180deg, #0E4F6B 0%, #0A3A52 70%); color: #fff; }
+
+.lp-head .lp-title { font-family: var(--font-editorial); font-size: clamp(36px, 5vw, 56px); letter-spacing: -.03em; line-height: 1.05; margin: 10px 0 16px; }
+.lp-board { display: grid; gap: 16px; }
+.lp-hero { display: grid; place-items: center; min-height: 340px; border-radius: 28px; background: var(--white); border: 1px solid var(--line); padding: 32px; overflow: hidden; }
+.lp-hero.night { min-height: 260px; background: linear-gradient(180deg, #0E4F6B 0%, #0A3A52 70%); color: #fff; border: 0; }
+.lp-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.lp-cell { background: var(--white); border: 1px solid var(--line); border-radius: 22px; padding: 20px; display: flex; flex-direction: column; gap: 18px; min-height: 180px; }
+.lp-cap { font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-500); }
+.lp-icons { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; flex: 1; }
+.lp-app.big { width: 104px; height: 104px; border-radius: 24px; }
+.lp-chip { display: grid; place-items: center; width: 84px; height: 84px; border-radius: 20px; }
+.lp-chip.ink { background: var(--ink); }
+.lp-chip.gold { background: var(--lime); }
+.lp-swatches { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-family: var(--font-mono); font-size: 11px; color: var(--ink-500); }
+.lp-swatches span { display: grid; gap: 3px; }
+.lp-swatches i { display: block; height: 30px; border-radius: 8px; }
+.lp-swatches b { font-family: var(--font-body); font-size: 12px; color: var(--ink); }
+.lp-files { display: grid; gap: 6px; }
+.lp-files a { display: flex; justify-content: space-between; padding: 9px 12px; border-radius: 10px; background: var(--paper); color: var(--ink); text-decoration: none; font-size: 14px; font-weight: 500; }
+.lp-files a:hover { background: var(--paper-2); }
+.lp-foot { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--line); color: var(--ink-500); font-size: 14px; }
+.lp-foot code { font-family: var(--font-mono); font-size: 13px; background: var(--paper-2); padding: 2px 6px; border-radius: 6px; margin: 0 2px; }
+
+@media (max-width: 1080px) { .lp-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 900px) {
+  .lp-hero > span { transform: scale(.55); }
+  .lp-hero.night > span { transform: scale(.7); }
+  .lp { padding: 48px 16px 72px; }
+  .lp-row { grid-template-columns: 1fr; }
+  .lp-head h1 > span { transform: scale(.8); transform-origin: left center; }
+}
