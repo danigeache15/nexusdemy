@@ -11,6 +11,9 @@ import World from "../sections/World";
 // alternating with white ones for rhythm.
 const t = { ...I18N.en, lang: "en" };
 const pad = (n) => String(n).padStart(2, "0");
+// WhatsApp links open with the message already written, so booking is one tap.
+const wa = (msg) => `https://wa.me/${BRAND.whatsapp}?text=${encodeURIComponent(msg)}`;
+const BOOK = { href: wa(I18N.en.cta.waBook), target: "_blank", rel: "noopener noreferrer" };
 
 // Reveals [data-reveal] (this page) and .reveal (shared sections) on first sight.
 function useReveal() {
@@ -49,7 +52,7 @@ function Nav() {
     <nav className={`vb-nav${solid ? " solid" : ""}`}>
       <a href="#top" aria-label={BRAND.name}><LogoFull size={34} mono /></a>
       <div className="vb-links">{links.map(([id, l]) => <a key={id} href={`#${id}`}>{l}</a>)}</div>
-      <a href="#cta" className="vb-btn gold small">{t.nav.cta} <i>→</i></a>
+      <a {...BOOK} className="vb-btn gold small">{t.nav.cta} <i>→</i></a>
     </nav>
   );
 }
@@ -69,8 +72,8 @@ function Hero() {
           </h1>
           <p className="vb-hero-sub vb-rise" style={{ "--d": ".5s" }}>{h.sub}</p>
           <div className="vb-actions vb-rise" style={{ "--d": ".65s" }}>
-            <a href="#test" className="vb-btn gold">{h.cta} <i>→</i></a>
-            <a href="#cta" className="vb-btn ghost-light">{h.cta2}</a>
+            <a {...BOOK} className="vb-btn gold">{h.cta} <i>→</i></a>
+            <a href="#test" className="vb-btn ghost-light">{h.cta2}</a>
           </div>
         </div>
 
@@ -101,6 +104,18 @@ function Marquee() {
   );
 }
 
+// Line icons for the four steps of the method (Learn, Practice, Feedback, Apply).
+const STEP_ICONS = [
+  // Learn: open book
+  <><path d="M4 7.5C7.5 6 10.5 6.3 14 8.5v15c-3.5-2.2-6.5-2.5-10-1z" /><path d="M24 7.5C20.5 6 17.5 6.3 14 8.5v15c3.5-2.2 6.5-2.5 10-1z" /></>,
+  // Practice: two speech bubbles
+  <><path d="M4 6.5h12a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-6l-4 3.5v-3.5H4a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2z" /><path d="M20.5 11H24a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-1v3.5L19 21h-4.5a2 2 0 0 1-2-2v-.5" /></>,
+  // Feedback: check in a circle
+  <><circle cx="14" cy="14" r="10.5" /><path d="M9 14.5l3.4 3.4L19.5 10.5" /></>,
+  // Apply: arrow taking off
+  <><path d="M5 22.5L22.5 5" /><path d="M11.5 5h11v11" /><path d="M5 15.5v7h7" /></>,
+];
+
 function Method() {
   return (
     <section id="method" className="vb-section vb-night">
@@ -109,7 +124,9 @@ function Method() {
         <ol className="vb-steps">
           {t.method.steps.map((s, i) => (
             <li key={s.n} data-reveal style={{ "--d": `${i * 0.1}s` }}>
-              <span className="vb-num">{s.n}</span>
+              <span className="vb-step-icon" aria-hidden="true">
+                <svg viewBox="0 0 28 28" width="30" height="30" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">{STEP_ICONS[i]}</svg>
+              </span>
               <h3>{s.t}</h3>
               <p>{s.d}</p>
             </li>
@@ -137,7 +154,7 @@ function Levels() {
                 <h3>{l.name}</h3>
                 <p>{text.trim()}</p>
                 {quote && <blockquote>“{quote}</blockquote>}
-                <a href="#test" className="vb-level-cta">{t.courses.cta} <i>→</i></a>
+                <a {...BOOK} className="vb-level-cta">{t.courses.cta} <i>→</i></a>
               </article>
             );
           })}
@@ -220,7 +237,7 @@ function LevelTest() {
               <small>{score} / {qs.length} correct</small>
               <div className="vb-actions center">
                 <button className="vb-btn ghost-light" onClick={start}>{t.test.retry}</button>
-                <a className="vb-btn gold" href="#cta">{t.test.book}</a>
+                <a className="vb-btn gold" {...BOOK}>{t.test.book}</a>
               </div>
             </div>
           )}
@@ -231,23 +248,64 @@ function LevelTest() {
 }
 
 function Programs() {
+  const p = t.pricing;
+  const g = p.program;
   return (
     <section id="pricing" className="vb-section vb-night">
       <div className="vb-stars" aria-hidden="true" />
       <div className="vb-container">
-        <Head index={5} label={t.pricing.eyebrow} title={t.pricing.title} sub={t.pricing.sub} center />
-        <div className="vb-plans">
-          {t.pricing.plans.map((p, i) => (
-            <article key={p.name} className={`vb-plan${p.highlight ? " feature" : ""}${p.status ? " ended" : ""}`} data-reveal style={{ "--d": `${i * 0.1}s` }}>
-              <p className="vb-label">{p.status ? `${p.tag} · ${p.status}` : p.tag}</p>
-              <h3>{p.name}</h3>
-              <p className="per">{p.per}</p>
-              <div className="price"><strong>{p.price}</strong> {t.pricing.currency}<span>{p.unit}</span></div>
-              <a href="#cta" className={`vb-btn ${p.highlight ? "ink" : "ghost-light"} wide`} aria-disabled={!!p.status}>{p.cta}</a>
+        <Head index={5} label={p.eyebrow} title={p.title} sub={p.sub} center />
+        <article className="vb-offer" data-reveal>
+          <div className="vb-offer-main">
+            <p className="vb-label">{g.tag}</p>
+            <h3>{g.name}</h3>
+            <p className="per">{g.per}</p>
+            <h4>{g.includesTitle}</h4>
+            <ul className="vb-checks">{g.includes.map((x) => <li key={x}>{x}</li>)}</ul>
+          </div>
+          <div className="vb-offer-side">
+            <h4>{g.bonusTitle}</h4>
+            <ul className="vb-bonuses">{g.bonuses.map((b) => <li key={b.t}><span>{b.t}</span><b>{b.v}</b></li>)}</ul>
+            <p className="vb-offer-price">{g.price}</p>
+            <a {...BOOK} className="vb-btn ink wide">{g.cta} <i>→</i></a>
+            <p className="vb-offer-note">{p.guarantee}</p>
+          </div>
+        </article>
+        <p className="vb-plans-title" data-reveal>{p.smallTitle}</p>
+        <div className="vb-plans two">
+          {p.plans.map((pl, i) => (
+            <article key={pl.name} className="vb-plan" data-reveal style={{ "--d": `${i * 0.1}s` }}>
+              <p className="vb-label">{pl.tag}</p>
+              <h3>{pl.name}</h3>
+              <p className="per">{pl.per}</p>
+              <div className="price"><strong>{pl.price}</strong> {p.currency}<span>{pl.unit}</span></div>
+              <a href={wa(`Hi! I'd like to book: ${pl.name}.`)} target="_blank" rel="noopener noreferrer" className="vb-btn ghost-light wide">{pl.cta}</a>
             </article>
           ))}
         </div>
-        <p className="vb-note" data-reveal>{t.pricing.guarantee}</p>
+      </div>
+    </section>
+  );
+}
+
+function Faq() {
+  const [open, setOpen] = useState(0);
+  return (
+    <section id="faq" className="vb-section vb-ink vb-faq">
+      <div className="vb-container">
+        <Head index={6} label={t.faq.eyebrow} title={t.faq.title} />
+        <ul className="vb-pillars">
+          {t.faq.list.map((f, i) => (
+            <li key={f.q} className={open === i ? "open" : ""} data-reveal style={{ "--d": `${i * 0.06}s` }}>
+              <button onClick={() => setOpen(open === i ? -1 : i)} aria-expanded={open === i}>
+                <span className="vb-num">{pad(i + 1)}</span>
+                <span className="name">{f.q}</span>
+                <span className="plus" aria-hidden="true" />
+              </button>
+              <div className="body"><p>{f.a}</p></div>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );
@@ -257,7 +315,7 @@ function Resources() {
   return (
     <section id="blog" className="vb-section vb-light">
       <div className="vb-container">
-        <Head index={6} label={t.blog.eyebrow} title={t.blog.title} sub={t.blog.sub} />
+        <Head index={7} label={t.blog.eyebrow} title={t.blog.title} sub={t.blog.sub} />
         <ul className="vb-posts">
           {t.blog.posts.map((p, i) => (
             <li key={p.title} data-reveal style={{ "--d": `${i * 0.06}s`, "--c": `var(--${p.color === "ink" ? "navy" : p.color})` }}>
@@ -283,7 +341,7 @@ function Founder() {
         {/* Left blank until the founder's photo is ready */}
         <div className="vb-portrait" data-reveal><span className="vb-portrait-name">{f.name}<small>{f.card}</small></span></div>
         <div data-reveal style={{ "--d": ".1s" }}>
-          <p className="vb-label"><span>({pad(7)})</span>{f.eyebrow}</p>
+          <p className="vb-label"><span>({pad(8)})</span>{f.eyebrow}</p>
           <h2 className="vb-h2">{f.title}</h2>
           <p className="vb-quote">“{f.bio2}”</p>
           <p className="vb-body">{f.bio1}</p>
@@ -303,8 +361,8 @@ function FinalCTA() {
         <h2 className="vb-h1 small">{t.cta.title}</h2>
         <p>{t.cta.sub}</p>
         <div className="vb-actions center">
-          <a className="vb-btn gold" href={`https://wa.me/${BRAND.whatsapp}`} target="_blank" rel="noopener noreferrer">{t.cta.btn} <i>→</i></a>
-          <a className="vb-btn ghost-light" href={`https://wa.me/${BRAND.whatsapp}`} target="_blank" rel="noopener noreferrer"><b className="wa">●</b> {t.cta.btn2}</a>
+          <a className="vb-btn gold" {...BOOK}>{t.cta.btn} <i>→</i></a>
+          <a className="vb-btn ghost-light" href={wa(t.cta.waAsk)} target="_blank" rel="noopener noreferrer"><b className="wa">●</b> {t.cta.btn2}</a>
         </div>
       </div>
     </section>
@@ -347,6 +405,7 @@ export default function Site() {
       <Academy />
       <LevelTest />
       <Programs />
+      <Faq />
       <Resources />
       <Founder />
       <FinalCTA />
