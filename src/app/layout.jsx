@@ -1,9 +1,9 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "Communicate Academy — You have the knowledge. Learn to communicate it in English.",
+  title: "Nexusdemy — Speak English without freezing. Your first class is free.",
   description:
-    "Online English and communication academy for B1+ university students and young professionals who want to speak with confidence — for better jobs, travel and international connections. Public speaking, personal branding and networking. Founded by Daniela Gómez Hernández.",
+    "Live online English classes in small groups for B1+ students and young professionals. Practise job interviews, introductions and real conversations, with feedback in every class. Your first class is free.",
 };
 
 export default function RootLayout({ children }) {
