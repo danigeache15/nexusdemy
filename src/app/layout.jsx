@@ -1,7 +1,8 @@
 import "./globals.css";
+import BRAND from "../brand";
 
 export const metadata = {
-  title: "Nexusdemy — Speak English without freezing. Your first class is free.",
+  title: `${BRAND.name} — Speak English without freezing. Your first class is free.`,
   description:
     "Live online English classes in small groups for B1+ students and young professionals. Practise job interviews, introductions and real conversations, with feedback in every class. Your first class is free.",
 };
