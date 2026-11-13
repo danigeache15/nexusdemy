@@ -120,7 +120,7 @@ function Method() {
   return (
     <section id="method" className="vb-section vb-night">
       <div className="vb-container">
-        <Head index={1} label={t.method.eyebrow} title={t.method.title} sub={t.method.sub} />
+        <Head index={2} label={t.method.eyebrow} title={t.method.title} sub={t.method.sub} />
         <ol className="vb-steps">
           {t.method.steps.map((s, i) => (
             <li key={s.n} data-reveal style={{ "--d": `${i * 0.1}s` }}>
@@ -141,7 +141,7 @@ function Levels() {
   return (
     <section id="courses" className="vb-section vb-light">
       <div className="vb-container">
-        <Head index={2} label={t.courses.eyebrow} title={<>{t.courses.title} <em>{t.courses.title2}</em></>} sub={t.courses.sub} />
+        <Head index={1} label={t.courses.eyebrow} title={<>{t.courses.title} <em>{t.courses.title2}</em></>} sub={t.courses.sub} />
         <div className="vb-levels">
           {t.courses.list.map((l, i) => {
             const [text, quote] = l.desc.split("“");
@@ -399,9 +399,9 @@ export default function Site() {
       <Hero />
       <Marquee />
       <Statement t={t} />
-      <Method />
-      <Levels />
       <World t={t} />
+      <Levels />
+      <Method />
       <Academy />
       <LevelTest />
       <Programs />
