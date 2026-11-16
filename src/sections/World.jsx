@@ -103,7 +103,7 @@ export default function World({ t }) {
         .world-title em { font-style: italic; color: var(--lime); }
         .world-pano { position: relative; height: clamp(260px, 26vw, 400px); margin-top: 24px; }
         .world-pano svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-        .world-pan { animation: worldPan ${Math.round(PANORAMA_W / 75)}s linear infinite; }
+        .world-pan { will-change: transform; animation: worldPan ${Math.round(PANORAMA_W / 75)}s linear infinite; }
         .world-bubble { transform-box: fill-box; transform-origin: 20% 100%; animation: worldBob 4s ease-in-out infinite; }
         .world-window { animation: worldWindow 9s steps(1) infinite; }
         .world-lamp { animation: worldTwinkle 3s ease-in-out infinite; }
@@ -112,8 +112,11 @@ export default function World({ t }) {
         @keyframes worldWindow { 0%, 70% { opacity: .9; } 71%, 86% { opacity: .15; } 87%, 100% { opacity: .9; } }
         @keyframes worldTwinkle { 0%, 100% { opacity: .45; } 50% { opacity: 1; } }
         @media (max-width: 760px) { .world { padding-top: 72px; } }
+        /* With "reduce motion" on (Windows animation effects off, iPhone Reduce Motion) the
+           skyline still drifts, just slower; only the bobbing and twinkling stop. */
         @media (prefers-reduced-motion: reduce) {
-          .world-pan, .world-bubble, .world-window, .world-lamp, .world-stars { animation: none; }
+          .world-pan { animation-duration: ${Math.round(PANORAMA_W / 30)}s; }
+          .world-bubble, .world-window, .world-lamp, .world-stars { animation: none; }
         }
       ` }} />
     </section>
