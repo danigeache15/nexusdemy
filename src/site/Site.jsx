@@ -115,6 +115,42 @@ const STEP_ICONS = [
   <><path d="M5 22.5L22.5 5" /><path d="M11.5 5h11v11" /><path d="M5 15.5v7h7" /></>,
 ];
 
+// A booking button repeated at the end of the key sections, so there is always one close by.
+function BookCta() {
+  return (
+    <div className="vb-book" data-reveal>
+      <a {...BOOK} className="vb-btn gold">{t.book.btn} <i>→</i></a>
+      <span>{t.book.note}</span>
+    </div>
+  );
+}
+
+// Mobile: a booking bar pinned to the bottom of the screen once the hero is behind you.
+// It hides while the offer or the final call to action is on screen (they have their own button).
+function StickyBook() {
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    const onScroll = () => {
+      const vh = window.innerHeight;
+      const inView = (id) => {
+        const r = document.getElementById(id)?.getBoundingClientRect();
+        return r && r.top < vh && r.bottom > 0;
+      };
+      setShow(window.scrollY > vh * 0.8 && !inView("pricing") && !inView("cta"));
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); };
+  }, []);
+  return (
+    <div className={`vb-sticky${show ? " on" : ""}`} aria-hidden={!show}>
+      <span>{t.book.barText}</span>
+      <a {...BOOK} className="vb-btn gold small" tabIndex={show ? 0 : -1}>{t.book.barBtn} <i>→</i></a>
+    </div>
+  );
+}
+
 function Method() {
   return (
     <section id="method" className="vb-section vb-night">
@@ -131,6 +167,7 @@ function Method() {
             </li>
           ))}
         </ol>
+        <BookCta />
       </div>
     </section>
   );
@@ -181,6 +218,7 @@ function Academy() {
             </li>
           ))}
         </ul>
+        <BookCta />
       </div>
     </section>
   );
@@ -305,6 +343,7 @@ function Faq() {
             </li>
           ))}
         </ul>
+        <BookCta />
       </div>
     </section>
   );
@@ -408,6 +447,7 @@ export default function Site() {
       <Founder />
       <FinalCTA />
       <Footer />
+      <StickyBook />
     </main>
   );
 }

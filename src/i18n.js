@@ -203,6 +203,12 @@ const I18N = {
       copy: `© 2026 ${BRAND.name}. All rights reserved.`,
       lang: `Founded by ${BRAND.owner}.`
     },
+    book: {
+      btn: "Book my free class",
+      note: "First class free · no card · we reply on WhatsApp",
+      barText: "Your first class is free",
+      barBtn: "Book now"
+    },
     chat: {
       title: "Got questions?",
       sub: "We'll get back to you soon",
