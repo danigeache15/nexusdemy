@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import I18N from "../i18n";
 import BRAND from "../brand";
 import { LogoFull } from "../components/Logo";
 import Statement from "../sections/Statement";
 import World from "../sections/World";
+import MethodScene from "../components/MethodScene";
 
 // Nexusdemy: night-palette sections (the look of the world panorama)
 // alternating with white ones for rhythm.
@@ -29,10 +31,11 @@ function useReveal() {
   }, []);
 }
 
-function Head({ title, sub, center }) {
+function Head({ title, sub, center, page }) {
+  const H = page ? "h1" : "h2";
   return (
     <header className={`vb-head${center ? " center" : ""}`} data-reveal>
-      <h2 className="vb-h2">{title}</h2>
+      <H className="vb-h2">{title}</H>
       {sub && <p className="vb-lead">{sub}</p>}
     </header>
   );
@@ -46,11 +49,14 @@ function Nav() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-  const links = [["courses", t.nav.courses], ["method", t.nav.method], ["teachers", t.nav.teachers], ["pricing", t.nav.pricing], ["blog", t.nav.blog]];
+  const path = usePathname();
+  // Inner pages start solid: the resources page is white, so a see-through nav would vanish.
+  const home = path === "/";
+  const links = [["/#courses", t.nav.courses], ["/method", t.nav.method], ["/#teachers", t.nav.teachers], ["/#pricing", t.nav.pricing], ["/faq", t.nav.faq], ["/resources", t.nav.blog]];
   return (
-    <nav className={`vb-nav${solid ? " solid" : ""}`}>
-      <a href="#top" aria-label={BRAND.name}><LogoFull size={34} mono /></a>
-      <div className="vb-links">{links.map(([id, l]) => <a key={id} href={`#${id}`}>{l}</a>)}</div>
+    <nav className={`vb-nav${solid || !home ? " solid" : ""}`}>
+      <a href="/" aria-label={BRAND.name}><LogoFull size={34} mono /></a>
+      <div className="vb-links">{links.map(([href, l]) => <a key={href} href={href} className={href === path ? "is-current" : undefined}>{l}</a>)}</div>
       <a {...BOOK} className="vb-btn gold small">{t.nav.cta} <i>→</i></a>
     </nav>
   );
@@ -152,24 +158,46 @@ function StickyBook() {
 }
 
 function Method() {
+  const [active, setActive] = useState(-1);
   return (
-    <section id="method" className="vb-section vb-night">
-      <div className="vb-container">
-        <Head title={t.method.title} sub={t.method.sub} />
-        <ol className="vb-steps">
-          {t.method.steps.map((s, i) => (
-            <li key={s.n} data-reveal style={{ "--d": `${i * 0.1}s` }}>
-              <span className="vb-step-icon" aria-hidden="true">
-                <svg viewBox="0 0 28 28" width="30" height="30" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">{STEP_ICONS[i]}</svg>
-              </span>
-              <h3>{s.t}</h3>
-              <p>{s.d}</p>
-            </li>
-          ))}
-        </ol>
-        <BookCta />
-      </div>
-    </section>
+    <>
+      <section id="method" className="vb-section vb-night vb-page vb-method-hero">
+        <div className="vb-stars" aria-hidden="true" />
+        <div className="vb-container vb-method-grid">
+          <div data-reveal>
+            <span className="vb-chip"><b />{t.method.eyebrow}</span>
+            <h1 className="vb-h2">{t.method.title}</h1>
+            <p className="vb-lead">{t.method.sub}</p>
+            <ol className="vb-method-legend">
+              {t.method.steps.map((s, i) => (
+                <li key={s.n} className={active === i ? "on" : ""} onMouseEnter={() => setActive(i)} onMouseLeave={() => setActive(-1)}>
+                  <i style={{ "--c": ["var(--lime)", "var(--orange)", "var(--navy-100)", "#fff"][i] }} />{s.t}
+                </li>
+              ))}
+            </ol>
+          </div>
+          <MethodScene active={active} />
+        </div>
+      </section>
+      <section className="vb-section vb-ink vb-method-steps">
+        <div className="vb-container">
+          <ol className="vb-steps cards">
+            {t.method.steps.map((s, i) => (
+              <li key={s.n} data-reveal style={{ "--d": `${i * 0.1}s` }} className={active === i ? "on" : ""}
+                onMouseEnter={() => setActive(i)} onMouseLeave={() => setActive(-1)} onFocus={() => setActive(i)} tabIndex={0}>
+                <span className="vb-step-icon" aria-hidden="true">
+                  <svg viewBox="0 0 28 28" width="30" height="30" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">{STEP_ICONS[i]}</svg>
+                </span>
+                <span className="vb-step-n">{s.n}</span>
+                <h3>{s.t}</h3>
+                <p>{s.d}</p>
+              </li>
+            ))}
+          </ol>
+          <BookCta />
+        </div>
+      </section>
+    </>
   );
 }
 
@@ -328,9 +356,11 @@ function Programs() {
 function Faq() {
   const [open, setOpen] = useState(0);
   return (
-    <section id="faq" className="vb-section vb-ink vb-faq">
+    <section id="faq" className="vb-section vb-ink vb-faq vb-page">
+      <div className="vb-stars" aria-hidden="true" />
       <div className="vb-container">
-        <Head title={t.faq.title} />
+        <span className="vb-chip"><b />{t.faq.eyebrow}</span>
+        <Head title={t.faq.title} page />
         <ul className="vb-pillars">
           {t.faq.list.map((f, i) => (
             <li key={f.q} className={open === i ? "open" : ""} data-reveal style={{ "--d": `${i * 0.06}s` }}>
@@ -351,9 +381,10 @@ function Faq() {
 
 function Resources() {
   return (
-    <section id="blog" className="vb-section vb-light">
+    <section id="blog" className="vb-section vb-light vb-page">
       <div className="vb-container">
-        <Head title={t.blog.title} sub={t.blog.sub} />
+        <span className="vb-chip light"><b />{t.blog.eyebrow}</span>
+        <Head title={t.blog.title} sub={t.blog.sub} page />
         <ul className="vb-posts">
           {t.blog.posts.map((p, i) => (
             <li key={p.title} data-reveal style={{ "--d": `${i * 0.06}s`, "--c": `var(--${p.color === "ink" ? "navy" : p.color})` }}>
@@ -366,6 +397,7 @@ function Resources() {
             </li>
           ))}
         </ul>
+        <BookCta />
       </div>
     </section>
   );
@@ -417,8 +449,8 @@ function Footer() {
             <p className="vb-footer-tag">{f.tag}</p>
           </div>
           <div className="vb-footer-cols">
-            <div><h4>{f.navTitle}</h4><a href="#courses">{t.nav.courses}</a><a href="#method">{t.nav.method}</a><a href="#teachers">{t.nav.teachers}</a><a href="#test">{t.nav.test}</a></div>
-            <div><h4>{f.companyTitle}</h4><a href="#founder">{f.about}</a><a href="#pricing">{f.careers}</a><a href="#cta">{f.contact}</a><a href="#blog">{f.press}</a></div>
+            <div><h4>{f.navTitle}</h4><a href="/#courses">{t.nav.courses}</a><a href="/method">{t.nav.method}</a><a href="/#teachers">{t.nav.teachers}</a><a href="/#test">{t.nav.test}</a><a href="/faq">{t.nav.faq}</a></div>
+            <div><h4>{f.companyTitle}</h4><a href="/#founder">{f.about}</a><a href="/#pricing">{f.careers}</a><a href="#cta">{f.contact}</a><a href="/resources">{f.press}</a></div>
             <div><h4>{f.legalTitle}</h4><a href="#">{f.terms}</a><a href="#">{f.privacy}</a><a href="#">{f.cookies}</a></div>
           </div>
         </div>
@@ -426,6 +458,32 @@ function Footer() {
       </div>
     </footer>
   );
+}
+
+// Shared frame for every page: nav, page content, final call to action, footer, mobile bar.
+function Page({ children }) {
+  useReveal();
+  return (
+    <main className="vb">
+      <Nav />
+      {children}
+      <FinalCTA />
+      <Footer />
+      <StickyBook />
+    </main>
+  );
+}
+
+export function MethodPage() {
+  return <Page><Method /></Page>;
+}
+
+export function FaqPage() {
+  return <Page><Faq /></Page>;
+}
+
+export function ResourcesPage() {
+  return <Page><Resources /></Page>;
 }
 
 export default function Site() {
@@ -439,11 +497,8 @@ export default function Site() {
       <World t={t} />
       <Academy />
       <Levels />
-      <Method />
       <LevelTest />
       <Programs />
-      <Faq />
-      <Resources />
       <Founder />
       <FinalCTA />
       <Footer />
