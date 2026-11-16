@@ -8,6 +8,7 @@ const I18N = {
       teachers: "Academy",
       pricing: "Free class",
       blog: "Resources",
+      faq: "FAQ",
       test: "Level test",
       cta: "Free class",
     },
