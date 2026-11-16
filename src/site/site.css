@@ -302,6 +302,29 @@ html:has(.vb) { scroll-behavior: smooth; scroll-padding-top: 76px; }
 .vb-plans.two { grid-template-columns: repeat(2, 1fr); max-width: 820px; margin: 0 auto; }
 .vb-faq .vb-pillars .name { font-size: clamp(22px, 2.4vw, 32px); line-height: 1.2; }
 
+/* Booking buttons repeated through the page */
+.vb-book { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; margin-top: 56px; }
+.vb-book span { font-size: 14px; color: rgba(255, 255, 255, .62); }
+.vb-light .vb-book span { color: var(--ink-500); }
+
+/* Mobile booking bar */
+.vb-sticky { display: none; }
+@media (max-width: 760px) {
+  .vb-sticky {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); z-index: 60;
+    padding: 10px 10px 10px 18px; border-radius: 18px;
+    background: rgba(2, 48, 71, .94); backdrop-filter: blur(12px); color: var(--white);
+    box-shadow: 0 12px 32px -10px rgba(0, 0, 0, .5); border: 1px solid rgba(255, 255, 255, .1);
+    font-size: 14px; font-weight: 600;
+    transform: translateY(140%); transition: transform .45s var(--ease);
+  }
+  .vb-sticky.on { transform: none; }
+  .vb-footer { padding-bottom: 110px; }
+  .vb-book { margin-top: 40px; }
+  .vb-book .vb-btn { width: 100%; justify-content: center; }
+}
+
 /* Footer (ink) */
 .vb-footer { background: var(--ink); color: var(--white); padding: 80px 0 34px; border-top: 1px solid rgba(255, 255, 255, .08); }
 .vb-footer-top { display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; }
