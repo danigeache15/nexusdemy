@@ -293,12 +293,32 @@ html:has(.vb) { scroll-behavior: smooth; scroll-padding-top: 76px; }
 .vb-checks li { position: relative; padding-left: 32px; font-size: 16px; line-height: 1.45; }
 .vb-checks li::before { content: "✓"; position: absolute; left: 0; top: -1px; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 800; background: var(--lime); color: var(--ink); }
 .vb-offer-side { padding: 44px 40px 40px; background: var(--lime); color: var(--ink); display: flex; flex-direction: column; }
-.vb-bonuses { list-style: none; margin: 0 0 28px; padding: 0; }
-.vb-bonuses li { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px solid rgba(2, 48, 71, .18); font-size: 15px; font-weight: 500; }
-.vb-bonuses b { white-space: nowrap; font-weight: 700; color: var(--ink-700); }
 .vb-offer-price { font-family: var(--font-serif); font-size: 32px; line-height: 1.05; margin: auto 0 18px; }
 .vb-offer-note { font-size: 13px; line-height: 1.5; margin: 14px 0 0; color: var(--ink-700); }
 .vb-plans-title { text-align: center; margin: 64px 0 22px; font-size: 13px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--navy-100); }
+.vb-tiers { list-style: none; margin: 0 0 26px; padding: 0; }
+.vb-tiers li { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 12px 0; border-bottom: 1px solid rgba(2, 48, 71, .18); }
+.vb-tiers span { display: grid; gap: 2px; font-size: 13px; color: var(--ink-700); }
+.vb-tiers b { font-size: 16px; color: var(--ink); }
+.vb-tiers strong { font-family: var(--font-serif); font-weight: 400; font-size: 24px; white-space: nowrap; }
+.vb-offer-from { font-size: 14px; color: var(--ink-700); margin: 0 0 20px; }
+.vb-offer-link { display: inline-block; margin: 0 0 22px; font-size: 14px; font-weight: 700; color: var(--ink); text-decoration: underline; text-underline-offset: 4px; }
+#packages { scroll-margin-top: 100px; }
+.vb-packages { margin-top: 10px; }
+.vb-packages .vb-plan { position: relative; }
+.vb-packages .vb-label { min-height: 2.9em; }
+.vb-packages .price { margin: 4px 0 22px; display: flex; align-items: baseline; gap: 4px; }
+.vb-packages .price small { font-size: 18px; font-weight: 700; color: var(--white); }
+.vb-packages .vb-plan.feature .price small { color: var(--ink); }
+.vb-feats { list-style: none; margin: 0 0 28px; padding: 0; display: grid; gap: 11px; font-size: 15px; line-height: 1.45; color: rgba(255, 255, 255, .85); }
+.vb-feats li { position: relative; padding-left: 28px; }
+.vb-feats li::before { content: "\2713"; position: absolute; left: 0; top: 0; color: var(--lime); font-weight: 800; }
+.vb-feats li.no { color: rgba(255, 255, 255, .45); }
+.vb-feats li.no::before { content: "\2013"; color: rgba(255, 255, 255, .45); }
+.vb-plan.feature .vb-feats { color: var(--ink); }
+.vb-plan.feature .vb-feats li::before { color: var(--ink); }
+.vb-packages .vb-btn { margin-top: auto; }
+.vb-popular { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); padding: 6px 14px; border-radius: 999px; background: var(--ink); color: var(--lime); font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; white-space: nowrap; }
 .vb-plans.two { grid-template-columns: repeat(2, 1fr); max-width: 820px; margin: 0 auto; }
 .vb-faq .vb-pillars .name { font-size: clamp(22px, 2.4vw, 32px); line-height: 1.2; }
 

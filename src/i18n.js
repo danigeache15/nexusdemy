@@ -117,7 +117,6 @@ const I18N = {
       eyebrow: "The offer",
       title: "The Speak Up Program.",
       sub: "Everything you need to go from understanding English to speaking it with confidence, in one program. Start with a free class and decide afterwards.",
-      currency: "CZK",
       program: {
         tag: "Flagship · 3 levels",
         name: "Speak Up Program",
@@ -131,20 +130,23 @@ const I18N = {
           "Job interview simulations in Level 3",
           "Your action plan for the opportunity you want"
         ],
-        bonusTitle: "Bonuses included",
-        bonuses: [
-          { t: "Weekly Conversation Club", v: "50 CZK per session" },
-          { t: "Personal Branding Workshop + LinkedIn profile in English", v: "100 CZK" },
-          { t: "Level test and placement", v: "Free" }
-        ],
-        cta: "Book my free class",
-        price: "Your first class is free"
+        fromLabel: "Foundation level",
+        from: "From US$89",
+        fromNote: "per level · three packages to choose from",
+        cta: "Book my free class"
       },
-      smallTitle: "Prefer to start with one piece?",
-      plans: [
-        { name: "Conversation Club", tag: "Practice session", price: 50, unit: "/session", per: "Extra speaking practice every week, in a relaxed group.", cta: "Book a session", highlight: false },
-        { name: "Branding Workshop", tag: "Workshop", price: 100, unit: "/workshop", per: "Learn to present yourself in English and leave with your LinkedIn profile ready.", cta: "Book the workshop", highlight: false }
+      packagesTitle: "Foundation level · choose your package",
+      unit: "/ level",
+      popular: "Most popular",
+      packages: [
+        { name: "Essential", price: 89, tag: "Group learning",
+          features: ["3 hours of live group classes per week", "Group feedback"], without: ["No individual sessions"] },
+        { name: "Plus", price: 129, tag: "Group learning + individual support", highlight: true,
+          features: ["4 hours of live group classes per week", "1 individual 30-minute session at the beginning of the level", "Professional profile review", "Personal improvement plan"] },
+        { name: "Premium", price: 179, tag: "Group learning + career communication",
+          features: ["5 hours of live group classes per week", "2 individual 30-minute sessions: one at the beginning and one at the end of the level", "Individual interview practice", "Additional personalized feedback"] }
       ],
+      packageCta: "Start with a free class",
       guarantee: "Your first class is free. If it isn't for you, you don't pay anything. No card, no commitment."
     },
     faq: {

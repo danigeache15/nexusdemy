@@ -329,25 +329,35 @@ function Programs() {
             <ul className="vb-checks">{g.includes.map((x) => <li key={x}>{x}</li>)}</ul>
           </div>
           <div className="vb-offer-side">
-            <h4>{g.bonusTitle}</h4>
-            <ul className="vb-bonuses">{g.bonuses.map((b) => <li key={b.t}><span>{b.t}</span><b>{b.v}</b></li>)}</ul>
-            <p className="vb-offer-price">{g.price}</p>
+            <h4>{g.fromLabel}</h4>
+            <ul className="vb-tiers">
+              {p.packages.map((pk) => <li key={pk.name}><span><b>{pk.name}</b>{pk.tag}</span><strong>US${pk.price}</strong></li>)}
+            </ul>
+            <p className="vb-offer-price">{g.from}</p>
+            <p className="vb-offer-from">{g.fromNote}</p>
+            <a href="#packages" className="vb-offer-link">{p.packagesTitle} ↓</a>
             <a {...BOOK} className="vb-btn ink wide">{g.cta} <i>→</i></a>
             <p className="vb-offer-note">{p.guarantee}</p>
           </div>
         </article>
-        <p className="vb-plans-title" data-reveal>{p.smallTitle}</p>
-        <div className="vb-plans two">
-          {p.plans.map((pl, i) => (
-            <article key={pl.name} className="vb-plan" data-reveal style={{ "--d": `${i * 0.1}s` }}>
-              <p className="vb-label">{pl.tag}</p>
-              <h3>{pl.name}</h3>
-              <p className="per">{pl.per}</p>
-              <div className="price"><strong>{pl.price}</strong> {p.currency}<span>{pl.unit}</span></div>
-              <a href={wa(`Hi! I'd like to book: ${pl.name}.`)} target="_blank" rel="noopener noreferrer" className="vb-btn ghost-light wide">{pl.cta}</a>
+        <p id="packages" className="vb-plans-title" data-reveal>{p.packagesTitle}</p>
+        <div className="vb-plans vb-packages">
+          {p.packages.map((pk, i) => (
+            <article key={pk.name} className={`vb-plan${pk.highlight ? " feature" : ""}`} data-reveal style={{ "--d": `${i * 0.1}s` }}>
+              {pk.highlight && <span className="vb-popular">{p.popular}</span>}
+              <p className="vb-label">{pk.tag}</p>
+              <h3>{pk.name}</h3>
+              <div className="price"><small>US$</small><strong>{pk.price}</strong><span>{p.unit}</span></div>
+              <ul className="vb-feats">
+                {pk.features.map((f) => <li key={f}>{f}</li>)}
+                {(pk.without || []).map((f) => <li key={f} className="no">{f}</li>)}
+              </ul>
+              <a href={wa(`Hi! I'd like to start the Foundation level with the ${pk.name} package (US$${pk.price}). Can I book my free class first?`)} target="_blank" rel="noopener noreferrer"
+                className={`vb-btn ${pk.highlight ? "ink" : "ghost-light"} wide`}>{p.packageCta} <i>→</i></a>
             </article>
           ))}
         </div>
+        <p className="vb-note" data-reveal>{p.guarantee}</p>
       </div>
     </section>
   );
