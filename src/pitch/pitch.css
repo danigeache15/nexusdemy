@@ -125,6 +125,9 @@
 .pt-cards { position: absolute; left: 120px; right: 120px; top: 150px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 50px; }
 .pt-card { height: 400px; border-radius: 34px; display: grid; place-items: center; box-shadow: 0 40px 80px -40px rgba(0,0,0,.6); }
 .pt-card.sky { background: var(--p-sky); } .pt-card.orange { background: var(--p-orange); } .pt-card.yellow { background: var(--p-yellow); }
+.pt-cards.levels { top: 200px; }
+.pt-cards.levels .pt-card { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 18px; height: 460px; }
+.pt-card-name { font-family: var(--font-editorial); font-weight: 800; font-size: 46px; color: var(--p-navy); }
 .pt-price { font-family: "Fraunces", var(--font-serif); font-weight: 800; font-size: 150px; color: var(--p-navy); letter-spacing: -0.03em; }
 .pt-badge { position: absolute; left: 50%; top: 660px; translate: -50% 0; padding: 30px 70px; border-radius: 999px; background: var(--p-gold); color: var(--p-navy); font-family: var(--font-editorial); font-weight: 800; font-size: 70px; white-space: nowrap; box-shadow: 0 30px 60px -30px rgba(255,183,3,.8); }
 .pt-badge.left { left: auto; right: 120px; translate: 0 0; top: 700px; }

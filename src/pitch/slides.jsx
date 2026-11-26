@@ -146,16 +146,18 @@ function Levels() {
   );
 }
 
-// 8 · Solution: Level 1 packages, first class free
+// 8 · Solution: the price of each level (business plan program overview)
 function Packages() {
   return (
     <div className="pt-pad">
-      <div className="pt-cards">
-        {[["$89", "sky"], ["$129", "orange"], ["$179", "yellow"]].map(([p, c], i) => (
-          <R key={p} d={0.2 + i * 0.15} fx="rise" className={`pt-card ${c}`}><span className="pt-price">{p}</span></R>
+      <div className="pt-cards levels">
+        {[["Foundation", "$89", "sky"], ["Professional", "$125", "orange"], ["Opportunity", "$250", "yellow"]].map(([name, p, c], i) => (
+          <R key={p} d={0.2 + i * 0.15} fx="rise" className={`pt-card ${c}`}>
+            <span className="pt-card-name">{name}</span>
+            <span className="pt-price">{p}</span>
+          </R>
         ))}
       </div>
-      <R at={1} fx="pop" className="pt-badge">First class free.</R>
     </div>
   );
 }
@@ -283,8 +285,8 @@ export const SLIDES = [
     notes: "Today, each option fixes one piece. Apps teach grammar, alone. Toastmasters trains speaking but not English. Courses on Coursera and edX are academic and self-paced. Private coaching works, but it's expensive. [CLICK] Nexusdemy is the missing middle: live, practical, in English, and affordable." },
   { Slide: Levels, steps: 3, theme: "cream",
     notes: "One program, three levels. [CLICK] Foundation, month one: practical English and confidence. [CLICK] Professional, month two: communication, personal branding, leadership, networking. [CLICK] Opportunity, months three and four: interviews, presentations, your own action plan. Every class: learn, practise, get feedback, apply." },
-  { Slide: Packages, steps: 1, theme: "navy",
-    notes: "Foundation has three packages. Essential, $89: three hours of live group classes a week. Plus, $129: four hours, a one-to-one session, a profile review and an improvement plan. Premium, $179: five hours, two one-to-one sessions and interview practice. Level 2 starts at $125 and level 3 at $250. [CLICK] And the first class is free." },
+  { Slide: Packages, steps: 0, theme: "navy",
+    notes: "One price per level. Foundation, month one, from $89: Essential $89 with three hours of live group classes a week, Plus $129 with a one-to-one session, a profile review and an improvement plan, and Premium $179 with two one-to-one sessions and interview practice. Professional, month two, from $125. Opportunity, months three and four, from $250." },
   { Slide: Traction, steps: 2, theme: "cream",
     notes: "We tested demand before launching. 42 customer interviews. [CLICK] 73% named speaking confidence as their main blocker. [CLICK] And 31 people joined our waitlist from organic outreach, no ads yet. The website, prices and free level test are live." },
   { Slide: Market, steps: 3, theme: "cream",
