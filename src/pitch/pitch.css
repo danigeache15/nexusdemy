@@ -97,20 +97,35 @@
 .pt-dot:nth-child(7n) { background: var(--p-orange); }
 .pt-center .pt-mega, .pt-center .pt-sub { position: relative; text-shadow: 0 0 40px var(--p-cream), 0 0 80px var(--p-cream); }
 
-/* ── 5 · Voice wave that freezes ── */
-.pt-wave { position: relative; margin-top: 90px; height: 280px; display: flex; align-items: center; gap: 14px; }
-.pt-wave i { width: 22px; border-radius: 11px; background: linear-gradient(var(--p-gold), var(--p-orange)); height: 40px;
-  animation: pt-talk 1.1s ease-in-out infinite; animation-delay: calc(var(--i) * -0.13s); transition: background .8s, height .8s; }
-@keyframes pt-talk { 0%, 100% { height: 40px; } 50% { height: calc(60px + (var(--i) * 37 % 200) * 1px); } }
-.pt-wave.frozen i { animation-play-state: paused; background: linear-gradient(#E6F6FD, var(--p-sky)); }
-.pt-flake { position: absolute; right: -150px; top: -40px; width: 170px; height: 170px; fill: none; stroke: var(--p-sky); stroke-width: 7; stroke-linecap: round; stroke-linejoin: round;
-  opacity: 0; transform: scale(.3) rotate(-90deg); transition: opacity .6s .3s, transform 1.2s var(--p-ease) .3s; }
-.pt-wave.frozen .pt-flake { opacity: 1; transform: none; }
+/* ── 5 · A chat bubble whose voice freezes mid-word ── */
+.pt-bubble { position: relative; margin-top: 80px; width: 820px; height: 300px; border-radius: 48px; display: flex; align-items: center; justify-content: center; gap: 16px;
+  background: rgba(255, 255, 255, .07); border: 2px solid rgba(255, 255, 255, .18); transition: background 1s, border-color 1s, box-shadow 1s; }
+.pt-bubble::after { content: ""; position: absolute; left: 90px; bottom: -34px; width: 60px; height: 60px; background: inherit; border-right: inherit; border-bottom: inherit;
+  transform: rotate(45deg) skew(12deg, 12deg); border-bottom-right-radius: 10px; background: #193D63; }
+.pt-bubble i { width: 22px; height: 30px; border-radius: 11px; background: linear-gradient(var(--p-gold), var(--p-orange));
+  animation: pt-talk .55s ease-in-out infinite alternate; animation-delay: calc(var(--i) * -0.13s); transition: background .9s; }
+@keyframes pt-talk { from { height: 30px; } to { height: var(--h); } }
+.pt-bubble.frozen { background: linear-gradient(160deg, rgba(230, 246, 253, .22), rgba(102, 201, 234, .16)); border-color: var(--p-sky); box-shadow: 0 0 60px -10px rgba(102, 201, 234, .55); }
+.pt-bubble.frozen::after { border-color: var(--p-sky); background: #1d4a6e; }
+.pt-bubble.frozen i { animation-play-state: paused; background: linear-gradient(#F2FBFF, var(--p-sky)); }
+.pt-frost { position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity 1.2s .2s;
+  background: radial-gradient(circle at 12% 20%, rgba(255,255,255,.35) 0 2px, transparent 3px), radial-gradient(circle at 82% 70%, rgba(255,255,255,.3) 0 2px, transparent 3px),
+    radial-gradient(circle at 40% 85%, rgba(255,255,255,.25) 0 1.5px, transparent 3px), radial-gradient(circle at 65% 15%, rgba(255,255,255,.3) 0 2px, transparent 3px); }
+.pt-bubble.frozen .pt-frost { opacity: 1; }
+.pt-flake { position: absolute; right: -60px; top: -70px; width: 160px; height: 160px; fill: none; stroke: var(--p-sky); stroke-width: 7; stroke-linecap: round; stroke-linejoin: round;
+  opacity: 0; transform: scale(.3) rotate(-90deg); transition: opacity .6s .3s, transform 1.2s var(--p-ease) .3s; filter: drop-shadow(0 0 18px rgba(102, 201, 234, .7)); }
+.pt-bubble.frozen .pt-flake { opacity: 1; transform: none; }
 
 /* ── 6 · Missing middle ── */
-.pt-axes { position: absolute; left: 120px; top: 230px; width: 1300px; height: 560px; fill: none; stroke: var(--p-sky); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.pt-axes { position: absolute; left: 120px; top: 60px; width: 1360px; height: 760px; fill: none; stroke: var(--p-sky); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.pt-axes .grid { stroke: rgba(20, 51, 90, .07); stroke-width: 2; }
+.pt-axis { position: absolute; font-family: var(--font-editorial); font-weight: 700; font-size: 36px; color: var(--p-sky); }
+.pt-axis.x { right: 140px; top: 795px; }
+.pt-axis.y { left: 40px; top: 430px; transform-origin: center; rotate: -90deg; }
+.pt-axis.y.on { transform: none; }
 .pt-pill { position: absolute; padding: 26px 46px; border-radius: 20px; font-family: var(--font-editorial); font-weight: 700; font-size: 42px; color: var(--p-navy); white-space: nowrap; }
-.pt-pill.sky { background: var(--p-sky); } .pt-pill.blue { background: var(--p-blue); color: #fff; } .pt-pill.orange { background: var(--p-orange); color: #fff; }
+.pt-pill { translate: -50% -50%; }
+.pt-pill.sky { background: var(--p-sky); } .pt-pill.yellow { background: var(--p-yellow); } .pt-pill.blue { background: var(--p-blue); color: #fff; } .pt-pill.orange { background: var(--p-orange); color: #fff; }
 .pt-pill.big { font-size: 56px; padding: 36px 64px; letter-spacing: .02em; }
 .pt-pill.glow.on { box-shadow: 0 0 0 0 rgba(247, 128, 60, .6); animation: pt-glow 2.2s ease-out 1s infinite; }
 @keyframes pt-glow { 0% { box-shadow: 0 0 0 0 rgba(247, 128, 60, .55); } 100% { box-shadow: 0 0 0 40px rgba(247, 128, 60, 0); } }
@@ -135,12 +150,13 @@
 /* ── 9 · Traction ── */
 .pt-stats { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(3, 1fr); align-items: center; padding: 0 120px; }
 .pt-stat { position: relative; display: flex; flex-direction: column; align-items: center; gap: 18px; }
-.pt-num { font-family: "Fraunces", var(--font-serif); font-weight: 800; font-size: 190px; line-height: 1; position: relative; }
+.pt-num { font-family: "Fraunces", var(--font-serif); font-weight: 800; font-size: 160px; line-height: 1; position: relative; }
 .pt-num.blue { color: var(--p-blue); } .pt-num.orange { color: var(--p-orange); }
 .pt-label { font-family: var(--font-editorial); font-weight: 600; font-size: 44px; color: var(--p-navy); }
-.pt-ring { position: absolute; top: -110px; width: 420px; height: 420px; fill: none; stroke-width: 10; transform: rotate(-90deg); }
+.pt-num-wrap { position: relative; display: grid; place-items: center; height: 440px; }
+.pt-ring { position: absolute; left: 50%; top: 50%; width: 440px; height: 440px; translate: -50% -50%; fill: none; stroke-width: 9; transform: rotate(-90deg); }
 .pt-ring circle { stroke: rgba(247,128,60,.15); }
-.pt-ring .fill { stroke: var(--p-orange); stroke-linecap: round; stroke-dasharray: 603; transition: stroke-dashoffset 1.8s var(--p-ease); }
+.pt-ring .fill { stroke: var(--p-orange); stroke-linecap: round; stroke-dasharray: 628; transition: stroke-dashoffset 1.8s var(--p-ease); }
 
 /* ── 10 · Funnel ── */
 .pt-funnel { position: absolute; left: 120px; top: 130px; width: 760px; display: flex; flex-direction: column; align-items: center; gap: 34px; }
@@ -174,6 +190,16 @@
 .pt-chips { display: flex; gap: 30px; margin-top: 90px; }
 .pt-chip { padding: 30px 54px; border-radius: 24px; font-family: var(--font-editorial); font-weight: 800; font-size: 60px; color: var(--p-navy); }
 .pt-chip.orange { background: var(--p-orange); color: #fff; } .pt-chip.sky { background: var(--p-sky); } .pt-chip.yellow { background: var(--p-yellow); }
+
+/* ── 13 · The ask as a sum ── */
+.pt-ask { display: flex; flex-direction: column; }
+.pt-sum { display: flex; align-items: flex-start; justify-content: center; gap: 34px; margin-top: 150px; }
+.pt-term { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+.pt-val { font-family: "Fraunces", var(--font-serif); font-weight: 800; font-size: 96px; line-height: 1; color: #fff; white-space: nowrap; }
+.pt-term.total .pt-val { color: var(--p-gold); font-size: 124px; margin-top: -14px; }
+.pt-cap { font-family: var(--font-editorial); font-weight: 700; font-size: 38px; color: var(--p-sky); }
+.pt-op { font-family: "Fraunces", var(--font-serif); font-weight: 800; font-size: 90px; line-height: 1; color: var(--p-orange); }
+.pt-source { align-self: center; margin-top: 120px; padding: 26px 60px; border-radius: 999px; background: var(--p-orange); color: #fff; font-family: var(--font-editorial); font-weight: 800; font-size: 58px; }
 
 /* ── Presenter UI ── */
 .pt-progress { position: absolute; left: 0; bottom: 0; height: 5px; background: var(--p-gold); transition: width .6s var(--p-ease); z-index: 5; }

@@ -85,6 +85,9 @@ function People() {
 }
 
 // 5 · The pain: they understand, but freeze when they speak
+// Heights the voice bars reach while "talking" (fixed, so it looks the same every time).
+const WAVE = [60, 110, 150, 90, 170, 120, 70, 140, 180, 100, 60, 130, 160, 90, 120, 70, 150, 100, 60, 110];
+
 function Pain() {
   const frozen = useOn(1);
   return (
@@ -93,8 +96,9 @@ function Pain() {
         <R until={1} className="pt-h1 white" as="h2">They understand English.</R>
         <R at={1} className="pt-h1 gold" as="h2">They freeze when they speak.</R>
       </div>
-      <div className={`pt-wave${frozen ? " frozen" : ""}`} aria-hidden="true">
-        {Array.from({ length: 28 }, (_, i) => <i key={i} style={{ "--i": i }} />)}
+      <div className={`pt-bubble${frozen ? " frozen" : ""}`} aria-hidden="true">
+        {WAVE.map((h, i) => <i key={i} style={{ "--i": i, "--h": `${h}px` }} />)}
+        <span className="pt-frost" />
         <svg className="pt-flake" viewBox="-60 -60 120 120">
           {[0, 60, 120].map((a) => (
             <g key={a} transform={`rotate(${a})`}>
@@ -111,13 +115,16 @@ function Pain() {
 function Competition() {
   return (
     <div className="pt-pad">
-      <R className="pt-h2 navy" as="h2">The missing middle</R>
-      <svg className="pt-axes" viewBox="0 0 1300 560" aria-hidden="true">
-        <path d="M60,520 H1260 M1240,505 L1262,520 L1240,535 M60,520 V30 M45,50 L60,28 L75,50" />
+      <svg className="pt-axes" viewBox="0 0 1360 760" aria-hidden="true">
+        <path className="grid" d="M80,190 H1320 M80,380 H1320 M80,570 H1320 M390,40 V720 M700,40 V720 M1010,40 V720" />
+        <path d="M80,720 H1330 M1306,704 L1332,720 L1306,736 M80,720 V30 M64,54 L80,28 L96,54" />
       </svg>
-      <R d={0.3} fx="pop" className="pt-pill sky" style={{ left: 250, top: 640 }}>Apps</R>
-      <R d={0.6} fx="pop" className="pt-pill blue" style={{ left: 900, top: 520 }}>Coaching</R>
-      <R at={1} fx="pop" className="pt-pill orange big glow" style={{ left: 1040, top: 260 }}>Nexusdemy</R>
+      <R d={0.2} className="pt-axis x">Practical →</R>
+      <R d={0.2} className="pt-axis y">Human →</R>
+      <R d={0.4} fx="pop" className="pt-pill sky" style={{ left: 280, top: 650 }}>Apps</R>
+      <R d={0.6} fx="pop" className="pt-pill yellow" style={{ left: 560, top: 470 }}>Courses</R>
+      <R d={0.8} fx="pop" className="pt-pill blue" style={{ left: 1020, top: 560 }}>Coaching</R>
+      <R at={1} fx="pop" className="pt-pill orange big glow" style={{ left: 1100, top: 150 }}>Nexusdemy</R>
     </div>
   );
 }
@@ -173,13 +180,15 @@ function Traction() {
         { at: 2, node: <Count at={2} to={31} />, label: "waitlist", color: "blue" },
       ].map((s, i) => (
         <R key={s.label} at={s.at} className="pt-stat">
-          {i === 1 && (
-            <svg className="pt-ring" viewBox="0 0 220 220" aria-hidden="true">
-              <circle cx="110" cy="110" r="96" />
-              <circle cx="110" cy="110" r="96" className="fill" style={{ strokeDashoffset: ring ? 603 * 0.27 : 603 }} />
-            </svg>
-          )}
-          <span className={`pt-num ${s.color}`}>{s.node}</span>
+          <span className="pt-num-wrap">
+            {i === 1 && (
+              <svg className="pt-ring" viewBox="0 0 220 220" aria-hidden="true">
+                <circle cx="110" cy="110" r="100" />
+                <circle cx="110" cy="110" r="100" className="fill" style={{ strokeDashoffset: ring ? 628 * 0.27 : 628 }} />
+              </svg>
+            )}
+            <span className={`pt-num ${s.color}`}>{s.node}</span>
+          </span>
           <span className="pt-label">{s.label}</span>
         </R>
       ))}
@@ -197,7 +206,6 @@ function Market() {
         ))}
         <div className="pt-flow" aria-hidden="true">{[0, 1, 2, 3, 4].map((i) => <i key={i} style={{ "--i": i }} />)}</div>
       </div>
-      <R at={3} fx="pop" className="pt-badge left">Free first class.</R>
     </div>
   );
 }
@@ -246,16 +254,22 @@ function Team() {
   );
 }
 
-// 13 · The ask
+// 13 · The ask, as one sum: start-up + four quarters of running costs = year one
 function Ask() {
   return (
-    <div className="pt-pad">
-      <R className="pt-mega gold small" as="h2">€600 a quarter.</R>
-      <div className="pt-chips">
-        {[["Partners.", "orange"], ["Grants.", "sky"], ["Competitions.", "yellow"]].map(([w, c], i) => (
-          <R key={w} at={1} d={i * 0.2} fx="pop" className={`pt-chip ${c}`}>{w}</R>
-        ))}
+    <div className="pt-pad pt-ask">
+      <R className="pt-h2 white" as="h2">Our ask</R>
+      <div className="pt-sum">
+        <R d={0.3} className="pt-term"><span className="pt-val">€174</span><R until={1} as="span" className="pt-cap">Start</R></R>
+        <R d={0.7} fx="pop" className="pt-op">+</R>
+        <R d={0.9} className="pt-term"><span className="pt-val">€600 × 4</span><R until={1} as="span" className="pt-cap">Quarterly</R></R>
+        <R d={1.3} fx="pop" className="pt-op">=</R>
+        <R d={1.5} fx="zoom" className="pt-term total">
+          <span className="pt-val">€2,574</span>
+          <R until={1} as="span" className="pt-cap">Year one</R>
+        </R>
       </div>
+      <R at={1} fx="pop" className="pt-source">From grants, not equity.</R>
     </div>
   );
 }
@@ -289,14 +303,14 @@ export const SLIDES = [
     notes: "One price per level. Foundation, month one, from $89: Essential $89 with three hours of live group classes a week, Plus $129 with a one-to-one session, a profile review and an improvement plan, and Premium $179 with two one-to-one sessions and interview practice. Professional, month two, from $125. Opportunity, months three and four, from $250." },
   { Slide: Traction, steps: 2, theme: "cream",
     notes: "We tested demand before launching. 42 customer interviews. [CLICK] 73% named speaking confidence as their main blocker. [CLICK] And 31 people joined our waitlist from organic outreach, no ads yet. The website, prices and free level test are live." },
-  { Slide: Market, steps: 3, theme: "cream",
-    notes: "Reach: short videos on Instagram, TikTok and Facebook, posts on LinkedIn, for Alejandro, a 22-year-old student, and Camila, a 28-year-old developer. [CLICK] Trust: webinars, free mini-courses, a free level test. [CLICK] Enroll: WhatsApp follow-up, level by level. [CLICK] The hook: a free first class. Budget: €600 a quarter; first month: reach 200 people, 20 interested students." },
+  { Slide: Market, steps: 2, theme: "cream",
+    notes: "Reach: short videos and carousels on Instagram, TikTok and Facebook, and posts on LinkedIn, for our two personas: Alejandro, a 22-year-old student who works part-time, and Camila, a 28-year-old developer. [CLICK] Trust: webinars, free mini-courses and a free English level test. [CLICK] Enroll: we follow up on WhatsApp and students enroll level by level. Marketing budget: 600 euros a quarter; in the first month we want to reach 200 people and 20 interested students." },
   { Slide: Money, steps: 1, theme: "navy",
     notes: "Year one: €29,400 in revenue, from €450 in month one to €4,800 in month twelve. Startup cost: €174. Break-even at about four students a month. [CLICK] So we are profitable from month two: about €297 net in month two, over €2,600 by month twelve. Year two, even with no growth, is at least €57,600." },
   { Slide: Team, steps: 1, theme: "cream",
     notes: "Nexusdemy was founded by Daniela Gómez Hernández, an English teacher with seven years of experience; she leads vision, curriculum and the student experience. [CLICK] Next we hire a Business Manager, a CFO and a CMO, and specialist instructors in leadership and public speaking." },
   { Slide: Ask, steps: 1, theme: "navy",
-    notes: "We run lean: €174 to start and €600 a quarter for instructors, tools, website and marketing, paid by our own sales. [CLICK] What we ask for is partners: universities and communities to reach students, grants and business plan competitions like Erasmus for Young Entrepreneurs and Premios EmprendeXXI. Goal: operational profitability by Q3 2027." },
+    notes: "Our ask is simple. 174 euros to start the business, plus 600 euros a quarter to run it: instructors, tools, the website and marketing. Four quarters: 2,574 euros for our first year. [CLICK] We want to fund it with grants and business plan competitions, like Erasmus for Young Entrepreneurs and Premios EmprendeXXI, not by selling part of the company, and with partners such as universities to reach students. With it, we reach operational profitability by Q3 2027." },
   { Slide: Close, steps: 0, theme: "teal",
     notes: "Because the world is bigger than your comfort zone. Thank you." },
 ];
