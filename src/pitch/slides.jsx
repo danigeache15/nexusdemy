@@ -1,0 +1,300 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { R, Count, PaintedMark, useOn } from "./parts";
+
+// The 14 slides, in the pitch-rubric order. Rule from the talks: never more than 6 words on screen;
+// everything else is in the speaker notes (press N while presenting).
+
+const Wordmark = ({ size = 120, color = "#fff" }) => (
+  <span className="pt-word" style={{ fontSize: size, color }}>
+    <b>ne<i>x</i>us</b><span>demy</span>
+  </span>
+);
+
+// 1 · Logo
+function Logo() {
+  return (
+    <div className="pt-center">
+      <PaintedMark width={430} />
+      <R d={2.4} fx="up" className="pt-mt"><Wordmark size={132} /></R>
+    </div>
+  );
+}
+
+// 2 · The intro video (with its music)
+function Video() {
+  const ref = useRef(null);
+  const on = useOn(0);
+  const [blocked, setBlocked] = useState(false);
+  useEffect(() => {
+    const v = ref.current;
+    if (!v || !on) return;
+    v.currentTime = 0;
+    v.play().catch(() => setBlocked(true));
+    return () => v.pause();
+  }, [on]);
+  return (
+    <div className="pt-video">
+      <video ref={ref} src="/pitch/nexusdemy-intro.mp4" playsInline preload="auto"
+        onClick={(e) => { const v = e.currentTarget; if (v.paused) { v.play(); setBlocked(false); } else v.pause(); }} />
+      {blocked && (
+        <button className="pt-play" onClick={() => { ref.current.play(); setBlocked(false); }} aria-label="Play video">▶</button>
+      )}
+    </div>
+  );
+}
+
+// 3 · The statistic: corporate demand for English vs supply, Latin America
+function Chart() {
+  const demand = useOn(0), supply = useOn(1);
+  return (
+    <div className="pt-split">
+      <R fx="left" className="pt-h1 navy" as="h2">Latin America</R>
+      <div className="pt-bars">
+        {[
+          { label: "Demand", pct: 80, color: "var(--p-orange)", on: demand, at: 0, d: 0.5 },
+          { label: "Supply", pct: 20, color: "var(--p-sky)", on: supply, at: 1, d: 0.2 },
+        ].map((b) => (
+          <div className="pt-bar-row" key={b.label}>
+            <R at={b.at} d={b.d} className="pt-bar-label">{b.label}</R>
+            <div className="pt-bar-track">
+              <div className="pt-bar" style={{ width: b.on ? `${b.pct}%` : 0, background: b.color, transitionDelay: `${b.d}s` }}>
+                <span><Count at={b.at} to={b.pct} suffix="%" d={b.d} /></span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// 4 · The people behind that statistic
+const DOTS = Array.from({ length: 220 }, (_, i) => i);
+function People() {
+  return (
+    <div className="pt-center">
+      <div className="pt-dots" aria-hidden="true">
+        {DOTS.map((i) => <R key={i} fx="pop" d={0.2 + (i % 22) * 0.03 + Math.floor(i / 22) * 0.05} className="pt-dot" />)}
+      </div>
+      <R d={0.3} className="pt-mega orange"><Count to={147.9} decimals={1} suffix=" M" dur={2.2} d={0.3} /></R>
+      <R d={1.6} className="pt-sub navy">people</R>
+    </div>
+  );
+}
+
+// 5 · The pain: they understand, but freeze when they speak
+function Pain() {
+  const frozen = useOn(1);
+  return (
+    <div className="pt-center">
+      <div className="pt-swap">
+        <R until={1} className="pt-h1 white" as="h2">They understand English.</R>
+        <R at={1} className="pt-h1 gold" as="h2">They freeze when they speak.</R>
+      </div>
+      <div className={`pt-wave${frozen ? " frozen" : ""}`} aria-hidden="true">
+        {Array.from({ length: 28 }, (_, i) => <i key={i} style={{ "--i": i }} />)}
+        <svg className="pt-flake" viewBox="-60 -60 120 120">
+          {[0, 60, 120].map((a) => (
+            <g key={a} transform={`rotate(${a})`}>
+              <path d="M0,-52 V52 M-14,-40 L0,-28 L14,-40 M-14,40 L0,28 L14,40" />
+            </g>
+          ))}
+        </svg>
+      </div>
+    </div>
+  );
+}
+
+// 6 · Competition: the missing middle
+function Competition() {
+  return (
+    <div className="pt-pad">
+      <R className="pt-h2 navy" as="h2">The missing middle</R>
+      <svg className="pt-axes" viewBox="0 0 1300 560" aria-hidden="true">
+        <path d="M60,520 H1260 M1240,505 L1262,520 L1240,535 M60,520 V30 M45,50 L60,28 L75,50" />
+      </svg>
+      <R d={0.3} fx="pop" className="pt-pill sky" style={{ left: 250, top: 640 }}>Apps</R>
+      <R d={0.6} fx="pop" className="pt-pill blue" style={{ left: 900, top: 520 }}>Coaching</R>
+      <R at={1} fx="pop" className="pt-pill orange big glow" style={{ left: 1040, top: 260 }}>Nexusdemy</R>
+    </div>
+  );
+}
+
+// 7 · Solution: one program, three levels
+const LEVELS = [
+  { n: "01", name: "Foundation", color: "var(--p-sky)" },
+  { n: "02", name: "Professional", color: "var(--p-yellow)" },
+  { n: "03", name: "Opportunity", color: "var(--p-orange)" },
+];
+function Levels() {
+  return (
+    <div className="pt-pad">
+      <R className="pt-h2 navy" as="h2">One program.</R>
+      <svg className="pt-links" viewBox="0 0 1600 900" aria-hidden="true">
+        <R as="path" at={2} fx="draw" pathLength="1" d="M643,387 L757,433" />
+        <R as="path" at={3} fx="draw" pathLength="1" d="M943,507 L1057,553" />
+      </svg>
+      {LEVELS.map((l, i) => (
+        <R key={l.n} at={i + 1} fx="pop" className="pt-level" style={{ left: 420 + i * 300, top: 250 + i * 120 }}>
+          <span className="pt-circle" style={{ background: l.color }}>{l.n}</span>
+          <b>{l.name}</b>
+        </R>
+      ))}
+    </div>
+  );
+}
+
+// 8 · Solution: Level 1 packages, first class free
+function Packages() {
+  return (
+    <div className="pt-pad">
+      <div className="pt-cards">
+        {[["$89", "sky"], ["$129", "orange"], ["$179", "yellow"]].map(([p, c], i) => (
+          <R key={p} d={0.2 + i * 0.15} fx="rise" className={`pt-card ${c}`}><span className="pt-price">{p}</span></R>
+        ))}
+      </div>
+      <R at={1} fx="pop" className="pt-badge">First class free.</R>
+    </div>
+  );
+}
+
+// 9 · Traction: demand before launch
+function Traction() {
+  const ring = useOn(1);
+  return (
+    <div className="pt-stats">
+      {[
+        { at: 0, node: <Count to={42} />, label: "interviews", color: "blue" },
+        { at: 1, node: <Count at={1} to={73} suffix="%" />, label: "blocked", color: "orange" },
+        { at: 2, node: <Count at={2} to={31} />, label: "waitlist", color: "blue" },
+      ].map((s, i) => (
+        <R key={s.label} at={s.at} className="pt-stat">
+          {i === 1 && (
+            <svg className="pt-ring" viewBox="0 0 220 220" aria-hidden="true">
+              <circle cx="110" cy="110" r="96" />
+              <circle cx="110" cy="110" r="96" className="fill" style={{ strokeDashoffset: ring ? 603 * 0.27 : 603 }} />
+            </svg>
+          )}
+          <span className={`pt-num ${s.color}`}>{s.node}</span>
+          <span className="pt-label">{s.label}</span>
+        </R>
+      ))}
+    </div>
+  );
+}
+
+// 10 · Go-to-market: the funnel
+function Market() {
+  return (
+    <div className="pt-pad">
+      <div className="pt-funnel">
+        {[["Reach", "sky", 760], ["Trust", "yellow", 580], ["Enroll", "orange", 400]].map(([w, c, width], i) => (
+          <R key={w} at={i} fx="rise" className={`pt-tier ${c}`} style={{ width }}>{w}</R>
+        ))}
+        <div className="pt-flow" aria-hidden="true">{[0, 1, 2, 3, 4].map((i) => <i key={i} style={{ "--i": i }} />)}</div>
+      </div>
+      <R at={3} fx="pop" className="pt-badge left">Free first class.</R>
+    </div>
+  );
+}
+
+// 11 · Financials: year 1, profitable from month 2
+function Money() {
+  const drawn = useOn(0), m2 = useOn(1);
+  const curve = "M120,620 C260,606 380,572 520,520 S860,380 1240,170";
+  return (
+    <div className="pt-pad">
+      <div className="pt-swap top">
+        <R until={1} className="pt-h2 white" as="h2">€29,400 in year one.</R>
+        <R at={1} className="pt-h2 gold" as="h2">Profit from month two.</R>
+      </div>
+      <svg className="pt-chart" viewBox="0 0 1360 700" aria-hidden="true">
+        <defs>
+          <linearGradient id="ptArea" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor="#FFB703" stopOpacity=".35" />
+            <stop offset="1" stopColor="#FFB703" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+        <path className="axis" d="M120,640 H1300" />
+        <path className={`area${drawn ? " on" : ""}`} d={`${curve} V640 H120 Z`} fill="url(#ptArea)" />
+        <path className={`line${drawn ? " on" : ""}`} d={curve} pathLength="1" />
+        <circle className={`m2${m2 ? " on" : ""}`} cx="235" cy="610" r="16" />
+      </svg>
+      <R d={0.4} className="pt-tag" style={{ left: 260, top: 700 }}>€450</R>
+      <R d={2.2} className="pt-tag gold" style={{ left: 1300, top: 250 }}>€4,800</R>
+    </div>
+  );
+}
+
+// 12 · Team
+function Team() {
+  return (
+    <div className="pt-team">
+      <div>
+        <R className="pt-h2 navy" as="h2">Daniela Gómez Hernández</R>
+        <R d={0.5} className="pt-sub orange">7 years teaching.</R>
+        <div className="pt-hires">
+          {[0, 1, 2].map((i) => <R key={i} at={1} d={i * 0.15} fx="pop" className="pt-hire">+</R>)}
+        </div>
+      </div>
+      <R fx="zoom" d={0.2} className="pt-founder"><PaintedMark width={300} d={0.6} /></R>
+    </div>
+  );
+}
+
+// 13 · The ask
+function Ask() {
+  return (
+    <div className="pt-pad">
+      <R className="pt-mega gold small" as="h2">€600 a quarter.</R>
+      <div className="pt-chips">
+        {[["Partners.", "orange"], ["Grants.", "sky"], ["Competitions.", "yellow"]].map(([w, c], i) => (
+          <R key={w} at={1} d={i * 0.2} fx="pop" className={`pt-chip ${c}`}>{w}</R>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// 14 · Close
+function Close() {
+  return (
+    <div className="pt-center">
+      <PaintedMark width={400} />
+      <R d={2.4} className="pt-h1 white pt-mt" as="h2">Thank you.</R>
+    </div>
+  );
+}
+
+export const SLIDES = [
+  { Slide: Logo, steps: 0, theme: "teal",
+    notes: "(Stand still, look at the room.) This is Nexusdemy." },
+  { Slide: Video, steps: 0, theme: "black",
+    notes: "(Let the video play.) The world is bigger than your comfort zone. Nexusdemy is an online academy where B1+ English learners turn what they know into real opportunities." },
+  { Slide: Chart, steps: 1, theme: "cream",
+    notes: "In Latin America, 80% of companies demand English for good jobs… [CLICK] …but only 20% of professionals can meet that demand. That is the gap." },
+  { Slide: People, steps: 0, theme: "cream",
+    notes: "That gap is not a percentage. It is 147.9 million people." },
+  { Slide: Pain, steps: 1, theme: "navy",
+    notes: "They understand English: they read it, write it, pass the exams. [CLICK] But they freeze when they speak. In an interview, in a meeting, the knowledge is there and the words don't come out. One of them told us: \"I don't need more grammar. I need to stop freezing.\"" },
+  { Slide: Competition, steps: 1, theme: "cream",
+    notes: "Today, each option fixes one piece. Apps teach grammar, alone. Toastmasters trains speaking but not English. Courses on Coursera and edX are academic and self-paced. Private coaching works, but it's expensive. [CLICK] Nexusdemy is the missing middle: live, practical, in English, and affordable." },
+  { Slide: Levels, steps: 3, theme: "cream",
+    notes: "One program, three levels. [CLICK] Foundation, month one: practical English and confidence. [CLICK] Professional, month two: communication, personal branding, leadership, networking. [CLICK] Opportunity, months three and four: interviews, presentations, your own action plan. Every class: learn, practise, get feedback, apply." },
+  { Slide: Packages, steps: 1, theme: "navy",
+    notes: "Foundation has three packages. Essential, $89: three hours of live group classes a week. Plus, $129: four hours, a one-to-one session, a profile review and an improvement plan. Premium, $179: five hours, two one-to-one sessions and interview practice. Level 2 starts at $125 and level 3 at $250. [CLICK] And the first class is free." },
+  { Slide: Traction, steps: 2, theme: "cream",
+    notes: "We tested demand before launching. 42 customer interviews. [CLICK] 73% named speaking confidence as their main blocker. [CLICK] And 31 people joined our waitlist from organic outreach, no ads yet. The website, prices and free level test are live." },
+  { Slide: Market, steps: 3, theme: "cream",
+    notes: "Reach: short videos on Instagram, TikTok and Facebook, posts on LinkedIn, for Alejandro, a 22-year-old student, and Camila, a 28-year-old developer. [CLICK] Trust: webinars, free mini-courses, a free level test. [CLICK] Enroll: WhatsApp follow-up, level by level. [CLICK] The hook: a free first class. Budget: €600 a quarter; first month: reach 200 people, 20 interested students." },
+  { Slide: Money, steps: 1, theme: "navy",
+    notes: "Year one: €29,400 in revenue, from €450 in month one to €4,800 in month twelve. Startup cost: €174. Break-even at about four students a month. [CLICK] So we are profitable from month two: about €297 net in month two, over €2,600 by month twelve. Year two, even with no growth, is at least €57,600." },
+  { Slide: Team, steps: 1, theme: "cream",
+    notes: "Nexusdemy was founded by Daniela Gómez Hernández, an English teacher with seven years of experience; she leads vision, curriculum and the student experience. [CLICK] Next we hire a Business Manager, a CFO and a CMO, and specialist instructors in leadership and public speaking." },
+  { Slide: Ask, steps: 1, theme: "navy",
+    notes: "We run lean: €174 to start and €600 a quarter for instructors, tools, website and marketing, paid by our own sales. [CLICK] What we ask for is partners: universities and communities to reach students, grants and business plan competitions like Erasmus for Young Entrepreneurs and Premios EmprendeXXI. Goal: operational profitability by Q3 2027." },
+  { Slide: Close, steps: 0, theme: "teal",
+    notes: "Because the world is bigger than your comfort zone. Thank you." },
+];
