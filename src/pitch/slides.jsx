@@ -245,8 +245,14 @@ function Team() {
       <div>
         <R className="pt-h2 navy" as="h2">Daniela Gómez Hernández</R>
         <R d={0.5} className="pt-sub orange">7 years teaching.</R>
+        <R at={1} className="pt-hires-title">Next hires</R>
         <div className="pt-hires">
-          {[0, 1, 2].map((i) => <R key={i} at={1} d={i * 0.15} fx="pop" className="pt-hire">+</R>)}
+          {["Manager", "CFO", "CMO"].map((role, i) => (
+            <R key={role} at={1} d={0.15 + i * 0.15} fx="pop" className="pt-hire-col">
+              <span className="pt-hire">+</span>
+              <span className="pt-hire-role">{role}</span>
+            </R>
+          ))}
         </div>
       </div>
       <R fx="zoom" d={0.2} className="pt-founder"><PaintedMark width={300} d={0.6} /></R>
