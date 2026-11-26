@@ -248,10 +248,7 @@ function Team() {
         <R at={1} className="pt-hires-title">Next hires</R>
         <div className="pt-hires">
           {["Manager", "CFO", "CMO"].map((role, i) => (
-            <R key={role} at={1} d={0.15 + i * 0.15} fx="pop" className="pt-hire-col">
-              <span className="pt-hire">+</span>
-              <span className="pt-hire-role">{role}</span>
-            </R>
+            <R key={role} at={1} d={0.15 + i * 0.15} fx="pop" className="pt-hire-role">{role}</R>
           ))}
         </div>
       </div>

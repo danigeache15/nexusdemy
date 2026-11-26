@@ -183,10 +183,8 @@
 .pt-team { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr 640px; align-items: center; padding-left: 120px; }
 .pt-team .pt-sub { margin-top: 18px; }
 .pt-hires-title { margin-top: 64px; font-family: var(--font-editorial); font-weight: 700; font-size: 30px; letter-spacing: .12em; text-transform: uppercase; color: var(--p-sky); }
-.pt-hires { display: flex; gap: 40px; margin-top: 22px; }
-.pt-hire-col { display: flex; flex-direction: column; align-items: center; gap: 14px; }
-.pt-hire-role { font-family: var(--font-editorial); font-weight: 700; font-size: 34px; color: var(--p-navy); }
-.pt-hire { width: 120px; height: 120px; border-radius: 50%; border: 4px dashed var(--p-sky); display: grid; place-items: center; font-size: 60px; color: var(--p-sky); font-weight: 300; }
+.pt-hires { display: flex; gap: 22px; margin-top: 22px; }
+.pt-hire-role { padding: 16px 32px; border-radius: 18px; border: 3px dashed var(--p-sky); font-family: var(--font-editorial); font-weight: 700; font-size: 34px; color: var(--p-navy); }
 .pt-founder { height: 900px; display: grid; place-items: center; background: radial-gradient(120% 90% at 50% 30%, #136085, var(--p-navy-bg)); }
 
 /* ── 13 · Ask ── */
